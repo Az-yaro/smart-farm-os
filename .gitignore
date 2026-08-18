@@ -1,0 +1,13 @@
+.config/
+sample_data/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.xlsx
+*.pdf
+.DS_Store
+venv/
+.venv/
+env/
+.pytest_cache/
+Create README.md
