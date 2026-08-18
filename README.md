@@ -4,7 +4,7 @@ An enterprise-grade telemetry, telemetry logging, and automated reporting system
 
 ## 🚀 Key Features
 *   **Persistent Data Storage:** Integrated SQLAlchemy ORM for robust, relational database management of farm entities.
-*   **Core Logic (`main.py`):** Object-Oriented Domain Models (`CatfishBatch`, `Tank`, `SmartFarmOS`) with automated safety guards and delegation to `db_operations` for persistence.
+*   **Core Logic (`main.py`):** Object-Oriented Domain Models (`CatfishBatch`, `Tank`, `SmartFarmOS`) with automated safety guards and delegation to `db_operations` for persistence. Notably, the `Tank` model now includes an `is_active` boolean field for better tank management.
 *   **Database Operations (`db_operations.py`):** Dedicated module for all CRUD operations, ensuring clean separation of concerns for data interaction.
 *   **Data Models (`database.py`):** Defines SQLAlchemy ORM models for `SmartFarmOS`, `CatFishBatch`, `Tank`, and `EventLog`.
 *   **Excel Data Pipeline (`excel.py`):** Multi-sheet Pandas export (`Events` & `Tanks`) with automated priority sorting for critical hazards.
@@ -17,6 +17,7 @@ An enterprise-grade telemetry, telemetry logging, and automated reporting system
 *   Pandas
 *   ReportLab
 *   OpenPyXL
+*   Pytest (for unit testing)
 
 ## 📁 System Architecture
 ```text
@@ -30,7 +31,11 @@ An enterprise-grade telemetry, telemetry logging, and automated reporting system
 ├── pdf_report.py      # ReportLab PDF digest generator
 ├── execution.py       # Main system orchestration script
 ├── requirements.txt   # Project dependencies
-└── README.md          # Project documentation
+├── README.md          # Project documentation
+└── tests/
+    ├── __init__.py
+    ├── conftest.py    # Pytest configuration for path setup
+    └── test_main.py   # Unit tests for main module logic
 ```
 
 ## Installation
@@ -45,13 +50,14 @@ python execution.py
 ## Current Features
 
 -   Persistent data storage (SQLAlchemy ORM)
--   Tank management
+-   Tank management (including `is_active` status)
 -   Fish batch management
 -   Water quality monitoring
 -   Custom exceptions
 -   Event logging
 -   Excel reporting
 -   PDF reporting
+-   Unit testing with Pytest
 
 ## Roadmap
 - [x] Smart Farm OS v2.0

@@ -78,7 +78,7 @@ class Tank:
       AmmoniaHazardError: If the ammonia level exceeds the safe limit.
       pHLevelError: If the pH level falls outside the safe range.
     """
-    if self.ammonia_ppm > 0.05:
+    if self.ammonia_ppm >= 0.05:
       raise AmmoniaHazardError(
             f"DANGER! Tank id: {self.tank_id} is in critical condition, ammonia level is {self.ammonia_ppm} ppm! (Limit: 0.05 ppm)"
         )
