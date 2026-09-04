@@ -64,5 +64,6 @@ python execution.py
 - [x] SQLAlchemy ORM v3.0
 - [ ] FastAPI REST API
 - [ ] Authentication
+- [ ] Deployment
 - [ ] Web dashboard
 - [ ] AI prediction engine

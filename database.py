@@ -19,6 +19,10 @@ class SmartFarmOS(Base):
   tanks: Mapped[List['Tank']] = relationship(back_populates='smart_farm_os', doc="List of tanks associated with this farm.")
   event_logs: Mapped[List['EventLog']] = relationship(back_populates='smart_farm_os', doc="List of event logs associated with this farm.")
   catfish_batches: Mapped[List['CatFishBatch']] = relationship(back_populates='smart_farm_os', doc="List of catfish batches associated with this farm.")
+  users: Mapped[List['User']] = relationship(
+      back_populates='smart_farm_os',
+      doc="List of users associated with this farm."
+  )
 
   def __repr__(self) -> str:
     """Returns a string representation of the SmartFarmOS object."""
@@ -80,6 +84,77 @@ class EventLog(Base):
     """Returns a string representation of the EventLog object."""
     return f"EventLog(category={self.category}, message={self.message}, status={self.status}, timestamp={self.timestamp})"
 
+class User(Base):
+  __tablename__ = "User"
+  id: Mapped[int] = mapped_column(
+      Integer,
+      primary_key=True,
+      autoincrement=True,
+      doc="Unique identifier for the user."
+  )
+  email: Mapped[str] = mapped_column(
+      String(50),
+      unique=True,
+      nullable=False,
+      doc="User's email address."
+  )
+  name: Mapped[str] = mapped_column(
+      String(100),
+      nullable=False,
+      doc="User's full name."
+  )
+
+  username: Mapped[str] = mapped_column(
+      String(30),
+      unique=True,
+      nullable=False,
+      doc="User's unique username."
+  )
+
+  password_hash: Mapped[str] = mapped_column(
+      String(255),
+      nullable=False,
+      doc="User's hashed password."
+  )
+
+  role: Mapped[str] = mapped_column(
+      String(30),
+      nullable=False,
+      doc="User's role (e.g., 'admin', 'user')."
+  )
+
+  is_active: Mapped[bool] = mapped_column(
+      Boolean,
+      default=True,
+      nullable=False,
+      doc="Indicates whether the user account is active or not."
+  )
+
+  created_at: Mapped[datetime] = mapped_column(
+      DateTime,
+      default=datetime.now,
+      doc="Timestamp when the user record was created."
+  )
+
+  updated_at: Mapped[datetime] = mapped_column(
+      DateTime,
+      default=datetime.now,
+      onupdate=datetime.now,
+      doc="Timestamp when the user record was last updated."
+  )
+
+  farm_id: Mapped[int] = mapped_column(
+      Integer,
+      ForeignKey("smart_farm_os.id"),
+      doc="Foreign key to the SmartFarmOS this user belongs to."
+  )
+  smart_farm_os: Mapped['SmartFarmOS'] = relationship(
+      back_populates='users',
+      doc="The SmartFarmOS object this user belongs to."
+  )
+  def __repr__(self) -> str:
+    """Returns a string representation of the UserModel object."""
+    return f"UserModel(email={self.email}, name={self.name}, username={self.username}, role={self.role})"
 
 database_url = os.getenv("DATABASE_URL")
 if not database_url:
@@ -93,4 +168,4 @@ def init_db() -> None:
   Initializes the database by creating all defined tables.
   This function should be called once at the start of the application.
   """
-  Base.metadata.create_all(bind=engine) # Then create all tables
+  Base.metadata.create_all(bind=engine)

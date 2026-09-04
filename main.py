@@ -1,7 +1,15 @@
-from exception import WaterQualityError, AmmoniaHazardError, pHLevelError
+from exceptions import WaterQualityError, AmmoniaHazardError, pHLevelError
 from datetime import datetime
 from typing import Dict, List, Any, Optional
-import db_operations # Import db_operations
+import db_operations
+from routers.tanks import router as tank_router
+from fastapi import FastAPI, APIRouter
+from global_handler import register_exception_handlers
+
+
+app = FastAPI()
+app.include_router(tank_router)
+register_exception_handlers(app)
 
 class CatFishBatch:
   """Represents a batch of catfish in a farm, tracking their biomass and feed requirements."""
