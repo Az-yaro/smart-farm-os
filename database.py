@@ -11,14 +11,50 @@ class Base(DeclarativeBase):
 class SmartFarmOS(Base):
   """Represents the main Smart Farm OS entity, managing multiple tanks, batches, and event logs."""
   __tablename__ = "smart_farm_os"
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True, doc="Unique identifier for the smart farm.")
-  farm_name: Mapped[str] = mapped_column(String(30), unique=True, nullable=False, doc="Name of the smart farm.")
-  created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, doc="Timestamp when the farm record was created.")
-  updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now, doc="Timestamp when the farm record was last updated.")
+  id: Mapped[int] = mapped_column(
+      Integer,
+      primary_key=True,
+      autoincrement=True,
+      doc="Unique identifier for the smart farm."
+  )
+  farm_name: Mapped[str] = mapped_column(
+      String(30),
+      unique=True,
+      nullable=False,
+      doc="Name of the smart farm."
+  )
+  public_id: Mapped[str] = mapped_column(
+      String(11),
+      unique=True,
+      nullable=False,
+      index=True,
+      doc="Public ID for the farm."
+  )
 
-  tanks: Mapped[List['Tank']] = relationship(back_populates='smart_farm_os', doc="List of tanks associated with this farm.")
-  event_logs: Mapped[List['EventLog']] = relationship(back_populates='smart_farm_os', doc="List of event logs associated with this farm.")
-  catfish_batches: Mapped[List['CatFishBatch']] = relationship(back_populates='smart_farm_os', doc="List of catfish batches associated with this farm.")
+  created_at: Mapped[datetime] = mapped_column(
+      DateTime,
+      default=datetime.now,
+      doc="Timestamp when the farm record was created."
+  )
+  updated_at: Mapped[datetime] = mapped_column(
+      DateTime,
+      default=datetime.now,
+      onupdate=datetime.now,
+      doc="Timestamp when the farm record was last updated."
+  )
+
+  tanks: Mapped[List['Tank']] = relationship(
+      back_populates='smart_farm_os',
+      doc="List of tanks associated with this farm."
+  )
+  event_logs: Mapped[List['EventLog']] = relationship(
+      back_populates='smart_farm_os',
+      doc="List of event logs associated with this farm."
+  )
+  catfish_batches: Mapped[List['CatFishBatch']] = relationship(
+      back_populates='smart_farm_os',
+      doc="List of catfish batches associated with this farm."
+  )
   users: Mapped[List['User']] = relationship(
       back_populates='smart_farm_os',
       doc="List of users associated with this farm."
@@ -128,6 +164,13 @@ class User(Base):
       default=True,
       nullable=False,
       doc="Indicates whether the user account is active or not."
+  )
+
+  is_verified: Mapped[bool] = mapped_column(
+      Boolean,
+      default=False,
+      nullable=False,
+      doc="Indicates whether the user account has been verified."
   )
 
   created_at: Mapped[datetime] = mapped_column(
