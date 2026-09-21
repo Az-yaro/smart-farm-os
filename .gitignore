@@ -1,0 +1,37 @@
+
+## Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Google Colab / local runtime
+.config/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Pytest
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local test database
+test.db
+
+# Generated / temporary files
+*.log
+
+# OS files
+.DS_Store
+
+# Generated documents / datasets
+*.xlsx
+*.pdf
